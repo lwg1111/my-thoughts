@@ -1,77 +1,117 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🧠 My GitHub Thoughts</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    img { max-width: 100%; height: auto; }
+    video { max-width: 100%; }
+  </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans p-6">
   <div class="max-w-3xl mx-auto">
-    <h1 class="text-4xl font-bold mb-4 flex items-center gap-2">🧠 My GitHub Thoughts</h1>
+    <h1 class="text-4xl font-bold mb-6 flex items-center gap-2">
+      🧠 <span>My GitHub Thoughts</span>
+    </h1>
 
-    <!-- 标签筛选 -->
-    <label class="block text-sm font-medium text-gray-700 mt-4 mb-1">Filter by Tag:</label>
-    <select id="tagFilter" class="w-full border rounded p-2 mb-4"></select>
+    <div class="mb-4">
+      <label for="tagFilter" class="font-semibold mr-2">Filter by Tag:</label>
+      <select id="tagFilter" class="p-2 border rounded">
+        <option value="All">All</option>
+      </select>
+    </div>
 
-    <!-- 搜索栏 -->
-    <input id="searchInput" type="text" placeholder="🔍 搜索关键词…" class="w-full border rounded p-2 mb-6" />
+    <div class="mb-4">
+      <input type="text" id="searchInput" placeholder="搜索关键词..." class="p-2 border rounded w-full">
+    </div>
 
-    <!-- 内容容器 -->
-    <div id="posts" class="space-y-6"></div>
+    <div id="posts" class="space-y-8"></div>
+    <div id="pagination" class="mt-6 text-center space-x-2"></div>
   </div>
 
-<script>
-  async function loadPosts() {
-    try {
-      const res = await fetch('public/data.json');
-      const data = await res.json();
+  <script>
+    let allPosts = [], filteredPosts = [], currentPage = 1, perPage = 5;
 
-      const tagSet = new Set();
-      data.forEach(post => post.tags?.forEach(t => tagSet.add(t)));
-      const tagFilter = document.getElementById('tagFilter');
-      tagFilter.innerHTML = `<option value="">All</option>` + [...tagSet].map(tag => `<option value="${tag}">${tag}</option>`).join('');
-
-      const renderPosts = () => {
-        const keyword = document.getElementById('searchInput').value.toLowerCase();
-        const selectedTag = tagFilter.value;
-        const container = document.getElementById('posts');
-        container.innerHTML = '';
-
-        data
-          .filter(post => (!selectedTag || post.tags.includes(selectedTag)))
-          .filter(post => post.title.toLowerCase().includes(keyword) || post.body.toLowerCase().includes(keyword))
-          .forEach(post => {
-            const el = document.createElement('div');
-            el.className = 'border-b border-gray-300 pb-4';
-
-            const renderedBody = marked.parse(post.body || '');
-
-            const tags = post.tags?.length ? `<div class="text-xs text-blue-600 mt-2">🏷 ${post.tags.join(', ')}</div>` : '';
-            const time = new Date(post.created_at).toLocaleString();
-
-            el.innerHTML = `
-              <h2 class="text-2xl font-semibold mb-1">
-                <a href="${post.html_url}" target="_blank" class="text-blue-600 hover:underline">${post.title}</a>
-              </h2>
-              <div class="prose prose-sm max-w-none">${renderedBody}</div>
-              <div class="text-sm text-gray-500 mt-1">🕒 ${time}</div>
-              ${tags}
-            `;
-            container.appendChild(el);
-          });
-      };
-
-      document.getElementById('searchInput').addEventListener('input', renderPosts);
-      document.getElementById('tagFilter').addEventListener('change', renderPosts);
-      renderPosts();
-    } catch (err) {
-      document.getElementById('posts').innerHTML = `<div class="text-red-600">⚠️ Failed to load data.json: ${err.message}</div>`;
+    async function loadPosts() {
+      try {
+        const res = await fetch('data.json');
+        const data = await res.json();
+        allPosts = data.reverse();
+        filteredPosts = allPosts;
+        populateTags();
+        renderPosts();
+      } catch (err) {
+        document.getElementById('posts').innerHTML =
+          `<div class="text-red-600">⚠️ Failed to load data.json: ${err.message}</div>`;
+      }
     }
-  }
 
-  loadPosts();
-</script>
+    function populateTags() {
+      const select = document.getElementById('tagFilter');
+      const tags = new Set(allPosts.flatMap(p => p.tags || []));
+      tags.forEach(tag => {
+        const option = document.createElement('option');
+        option.value = tag;
+        option.textContent = tag;
+        select.appendChild(option);
+      });
+    }
+
+    function renderPosts() {
+      const container = document.getElementById('posts');
+      container.innerHTML = '';
+
+      const paginated = filteredPosts.slice((currentPage-1)*perPage, currentPage*perPage);
+
+      paginated.forEach(post => {
+        const el = document.createElement('div');
+        el.innerHTML = `
+          <h2 class="text-2xl font-bold text-blue-700 mb-1">
+            <a href="${post.html_url}" target="_blank">${post.title}</a>
+          </h2>
+          <div class="prose prose-sm max-w-none text-gray-800 mb-2">${marked.parse(post.body)}</div>
+          <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString('zh-CN')}</div>
+          ${post.tags?.length ? `<div class="text-xs mt-1 text-gray-400">🏷️ ${post.tags.join(', ')}</div>` : ''}
+        `;
+        container.appendChild(el);
+      });
+      renderPagination();
+    }
+
+    function renderPagination() {
+      const total = Math.ceil(filteredPosts.length / perPage);
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = '';
+
+      for (let i = 1; i <= total; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.className = `px-3 py-1 border rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-white'}`;
+        btn.onclick = () => { currentPage = i; renderPosts(); };
+        pagination.appendChild(btn);
+      }
+    }
+
+    document.getElementById('tagFilter').addEventListener('change', e => {
+      const tag = e.target.value;
+      currentPage = 1;
+      filteredPosts = tag === 'All' ? allPosts : allPosts.filter(p => p.tags?.includes(tag));
+      renderPosts();
+    });
+
+    document.getElementById('searchInput').addEventListener('input', e => {
+      const q = e.target.value.toLowerCase();
+      currentPage = 1;
+      filteredPosts = allPosts.filter(p =>
+        p.title.toLowerCase().includes(q) || p.body.toLowerCase().includes(q)
+      );
+      renderPosts();
+    });
+
+    loadPosts();
+  </script>
 </body>
 </html>
