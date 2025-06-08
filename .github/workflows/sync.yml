@@ -1,23 +1,26 @@
 name: Sync Issues to JSON
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'  # 每天 0 点 UTC 自动运行
-  workflow_dispatch:     # 手动触发也可以用
+    - cron: '0 0 * * *'
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # 👈 关键权限，必须加！
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install Dependencies
+      - name: Install Octokit
         run: npm install @octokit/rest
 
       - name: Run Sync Script
