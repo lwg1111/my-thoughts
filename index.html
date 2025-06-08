@@ -1,40 +1,53 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Thoughts</title>
+  <title>My GitHub Thoughts</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white text-gray-800 p-6 max-w-3xl mx-auto">
-  <h1 class="text-4xl font-bold mb-6">🧠 My GitHub Thoughts</h1>
-  <div id="posts" class="space-y-6 text-lg"></div>
+<body class="bg-gray-50 text-gray-800 font-sans p-6">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8 flex items-center gap-2">
+      🧠 <span>My GitHub Thoughts</span>
+    </h1>
+    <div id="posts" class="space-y-6"></div>
+  </div>
 
   <script>
-    fetch('./issues.json')
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById('posts')
-        if (!Array.isArray(data)) {
-          container.innerHTML = '<p class="text-red-600">❌ 数据格式错误</p>'
-          return
+    async function loadPosts() {
+      try {
+        const res = await fetch('./data.json');
+        const data = await res.json();
+        const container = document.getElementById('posts');
+
+        if (!Array.isArray(data) || data.length === 0) {
+          container.innerHTML = "<p class='text-gray-500'>No posts found.</p>";
+          return;
         }
 
-        if (data.length === 0) {
-          container.innerHTML = '<p class="text-gray-500">暂无文章</p>'
-          return
-        }
+        data.forEach(post => {
+          const tags = post.labels.map(label =>
+            `<span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full mr-2">${label}</span>`
+          ).join('');
 
-        data.forEach(issue => {
-          const el = document.createElement('div')
-          el.innerHTML = `
-            <a href="${issue.html_url}" target="_blank" class="text-xl font-semibold text-blue-600 hover:underline">${issue.title}</a>
-            <p class="text-sm text-gray-500">${new Date(issue.created_at).toLocaleDateString()}</p>
-            <div class="text-gray-700 mt-2">${issue.body?.slice(0, 200) || ''}...</div>
-            <div class="text-sm text-gray-400">标签：${issue.labels.join(', ')}</div>
-          `
-          container.appendChild(el)
-        })
-      })
-      .catch(err => {
-        document.getElementById('posts').innerHTML = `<p class="text-red-600">⚠️ 加载失败：${err}</p>`
+          const html = `
+            <div class="bg-white shadow p-5 rounded-lg border">
+              <a href="${post.html_url}" target="_blank" class="text-2xl font-semibold text-blue-600 hover:underline">${post.title}</a>
+              <p class="text-sm text-gray-500 mt-1">${new Date(post.created_at).toLocaleString()}</p>
+              <p class="mt-4 whitespace-pre-wrap">${post.body || ''}</p>
+              <div class="mt-4">${tags}</div>
+            </div>
+          `;
+          container.innerHTML += html;
+        });
+      } catch (err) {
+        document.getElementById('posts').innerHTML =
+          `<p class='text-red-500'>⚠️ Failed to load data.json: ${err.message}</p>`;
+      }
+    }
+
+    loadPosts();
+  </script>
+</body>
+</html>
