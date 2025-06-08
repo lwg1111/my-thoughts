@@ -1,50 +1,45 @@
+<!-- public/index.html -->
 <!DOCTYPE html>
-<html lang="zh">
-  <head>
-    <meta charset="UTF-8" />
-    <title>我的 AI 共创博客</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-white text-gray-800 font-sans max-w-3xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">📝 我的 AI 共创博客</h1>
-    <div id="posts" class="space-y-6 text-base">加载中...</div>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Thoughts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800 p-6 max-w-3xl mx-auto">
+  <h1 class="text-4xl font-bold mb-6">🧠 My GitHub Thoughts</h1>
+  <div id="posts" class="space-y-6 text-lg"></div>
 
-    <script>
-      fetch('data.json')
-        .then(res => res.json())
-        .then(posts => {
-          const container = document.getElementById('posts')
-          container.innerHTML = posts.length
-            ? posts
-                .map(
-                  p => `
-            <article class="border-b pb-4">
-              <h2 class="text-xl font-semibold text-blue-700">
-                <a href="${p.html_url}" target="_blank" class="hover:underline">${p.title}</a>
-              </h2>
-              <p class="mt-2 whitespace-pre-line">${p.body}</p>
-              <div class="text-sm text-gray-500 mt-2">发布于 ${new Date(
-                p.created_at
-              ).toLocaleString()}</div>
-              ${
-                p.labels?.length
-                  ? `<div class="mt-2 space-x-2">${p.labels
-                      .map(
-                        label => `<span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">${label}</span>`
-                      )
-                      .join('')}</div>`
-                  : ''
-              }
-            </article>
+  <script>
+    fetch('./issues.json')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('posts')
+        if (!Array.isArray(data)) {
+          container.innerHTML = '<p class="text-red-600">❌ 数据格式错误</p>'
+          return
+        }
+
+        if (data.length === 0) {
+          container.innerHTML = '<p class="text-gray-500">暂无文章</p>'
+          return
+        }
+
+        data.forEach(issue => {
+          const el = document.createElement('div')
+          el.innerHTML = `
+            <a href="${issue.html_url}" target="_blank" class="text-xl font-semibold text-blue-600 hover:underline">${issue.title}</a>
+            <p class="text-sm text-gray-500">${new Date(issue.created_at).toLocaleDateString()}</p>
+            <div class="text-gray-700 mt-2">${issue.body?.slice(0, 200) || ''}...</div>
+            <div class="text-sm text-gray-400">标签：${issue.labels.join(', ')}</div>
           `
-                )
-                .join('')
-            : '<p class="text-gray-500">暂无内容。</p>'
+          container.appendChild(el)
         })
-        .catch(err => {
-          document.getElementById('posts').innerHTML =
-            '<p class="text-red-500">加载失败：' + err + '</p>'
-        })
-    </script>
-  </body>
+      })
+      .catch(err => {
+        document.getElementById('posts').innerHTML = `<p class="text-red-600">⚠️ 加载失败：${err}</p>`
+      })
+  </script>
+</body>
 </html>
