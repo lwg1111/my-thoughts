@@ -1,117 +1,138 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🧠 My GitHub Thoughts</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
   <style>
-    img { max-width: 100%; height: auto; }
-    video { max-width: 100%; }
+    iframe {
+      width: 100%;
+      max-width: 720px;
+      height: 405px;
+      margin-top: 1rem;
+    }
+    .markdown-body img {
+      cursor: pointer;
+      max-width: 100%;
+      height: auto;
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans p-6">
   <div class="max-w-3xl mx-auto">
-    <h1 class="text-4xl font-bold mb-6 flex items-center gap-2">
-      🧠 <span>My GitHub Thoughts</span>
-    </h1>
+    <h1 class="text-4xl font-bold mb-6 flex items-center gap-3">🧠 My GitHub Thoughts</h1>
 
-    <div class="mb-4">
-      <label for="tagFilter" class="font-semibold mr-2">Filter by Tag:</label>
-      <select id="tagFilter" class="p-2 border rounded">
-        <option value="All">All</option>
+    <div class="mb-6 flex flex-wrap gap-4">
+      <input id="search" type="text" placeholder="搜索关键词..."
+        class="w-full p-3 border rounded shadow-sm text-lg" />
+      <select id="tagFilter" class="p-2 rounded border">
+        <option value="all">所有标签</option>
       </select>
     </div>
 
-    <div class="mb-4">
-      <input type="text" id="searchInput" placeholder="搜索关键词..." class="p-2 border rounded w-full">
-    </div>
+    <div id="posts" class="space-y-10"></div>
 
-    <div id="posts" class="space-y-8"></div>
-    <div id="pagination" class="mt-6 text-center space-x-2"></div>
+    <div class="mt-8 flex justify-center gap-4 text-blue-500">
+      <button id="prevBtn" class="hover:underline">上一页</button>
+      <button id="nextBtn" class="hover:underline">下一页</button>
+    </div>
   </div>
 
-  <script>
-    let allPosts = [], filteredPosts = [], currentPage = 1, perPage = 5;
+<script>
+const POSTS_PER_PAGE = 5;
+let allPosts = [], currentPage = 1;
 
-    async function loadPosts() {
-      try {
-        const res = await fetch('data.json');
-        const data = await res.json();
-        allPosts = data.reverse();
-        filteredPosts = allPosts;
-        populateTags();
-        renderPosts();
-      } catch (err) {
-        document.getElementById('posts').innerHTML =
-          `<div class="text-red-600">⚠️ Failed to load data.json: ${err.message}</div>`;
-      }
-    }
+function renderMarkdown(body) {
+  return marked.parse(body).replace(
+    /<img src=\"(.*?)\"/g,
+    (match, src) => `<a href="${src}" class="glightbox"><img src="${src}"`
+  ).replace(
+    /https:\/\/www\.youtube\.com\/watch\?v=([\w-]+)/g,
+    (match, id) => `<iframe src="https://www.youtube.com/embed/${id}" allowfullscreen></iframe>`
+  );
+}
 
-    function populateTags() {
-      const select = document.getElementById('tagFilter');
-      const tags = new Set(allPosts.flatMap(p => p.tags || []));
-      tags.forEach(tag => {
-        const option = document.createElement('option');
-        option.value = tag;
-        option.textContent = tag;
-        select.appendChild(option);
-      });
-    }
+function renderPosts() {
+  const tag = document.getElementById('tagFilter').value;
+  const query = document.getElementById('search').value.toLowerCase();
+  const filtered = allPosts.filter(p => {
+    const content = (p.title + p.body).toLowerCase();
+    const matchQuery = content.includes(query);
+    const matchTag = tag === 'all' || (p.tags && p.tags.includes(tag));
+    return matchQuery && matchTag;
+  });
+  const start = (currentPage - 1) * POSTS_PER_PAGE;
+  const visible = filtered.slice(start, start + POSTS_PER_PAGE);
 
-    function renderPosts() {
-      const container = document.getElementById('posts');
-      container.innerHTML = '';
+  const container = document.getElementById('posts');
+  container.innerHTML = '';
 
-      const paginated = filteredPosts.slice((currentPage-1)*perPage, currentPage*perPage);
+  visible.forEach(post => {
+    const el = document.createElement('div');
+    el.innerHTML = `
+      <h2 class="text-2xl font-bold text-blue-600 mb-2">
+        <a href="${post.html_url}" target="_blank">${post.title}</a>
+      </h2>
+      <div class="markdown-body prose max-w-full">${renderMarkdown(post.body)}</div>
+      <div class="text-sm text-gray-500 mt-2">🕒 ${new Date(post.created_at).toLocaleString()}</div>
+      <div class="text-xs text-gray-400">${post.tags?.join(', ') || ''}</div>
+    `;
+    container.appendChild(el);
+  });
+  GLightbox({ selector: '.glightbox' });
+}
 
-      paginated.forEach(post => {
-        const el = document.createElement('div');
-        el.innerHTML = `
-          <h2 class="text-2xl font-bold text-blue-700 mb-1">
-            <a href="${post.html_url}" target="_blank">${post.title}</a>
-          </h2>
-          <div class="prose prose-sm max-w-none text-gray-800 mb-2">${marked.parse(post.body)}</div>
-          <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString('zh-CN')}</div>
-          ${post.tags?.length ? `<div class="text-xs mt-1 text-gray-400">🏷️ ${post.tags.join(', ')}</div>` : ''}
-        `;
-        container.appendChild(el);
-      });
-      renderPagination();
-    }
-
-    function renderPagination() {
-      const total = Math.ceil(filteredPosts.length / perPage);
-      const pagination = document.getElementById('pagination');
-      pagination.innerHTML = '';
-
-      for (let i = 1; i <= total; i++) {
-        const btn = document.createElement('button');
-        btn.textContent = i;
-        btn.className = `px-3 py-1 border rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-white'}`;
-        btn.onclick = () => { currentPage = i; renderPosts(); };
-        pagination.appendChild(btn);
-      }
-    }
-
-    document.getElementById('tagFilter').addEventListener('change', e => {
-      const tag = e.target.value;
-      currentPage = 1;
-      filteredPosts = tag === 'All' ? allPosts : allPosts.filter(p => p.tags?.includes(tag));
-      renderPosts();
+fetch('data.json')
+  .then(res => res.json())
+  .then(data => {
+    allPosts = data;
+    const tags = new Set();
+    data.forEach(p => p.tags?.forEach(t => tags.add(t)));
+    tags.forEach(tag => {
+      const opt = document.createElement('option');
+      opt.value = tag;
+      opt.textContent = tag;
+      document.getElementById('tagFilter').appendChild(opt);
     });
+    renderPosts();
+  })
+  .catch(err => {
+    document.getElementById('posts').innerHTML = `<div class="text-red-500">⚠️ Failed to load data.json: ${err.message}</div>`;
+  });
 
-    document.getElementById('searchInput').addEventListener('input', e => {
-      const q = e.target.value.toLowerCase();
-      currentPage = 1;
-      filteredPosts = allPosts.filter(p =>
-        p.title.toLowerCase().includes(q) || p.body.toLowerCase().includes(q)
-      );
-      renderPosts();
-    });
+document.getElementById('search').addEventListener('input', () => {
+  currentPage = 1;
+  renderPosts();
+});
 
-    loadPosts();
-  </script>
+document.getElementById('tagFilter').addEventListener('change', () => {
+  currentPage = 1;
+  renderPosts();
+});
+
+document.getElementById('prevBtn').onclick = () => {
+  if (currentPage > 1) {
+    currentPage--;
+    renderPosts();
+  }
+};
+
+document.getElementById('nextBtn').onclick = () => {
+  const tag = document.getElementById('tagFilter').value;
+  const query = document.getElementById('search').value.toLowerCase();
+  const total = allPosts.filter(p => {
+    const content = (p.title + p.body).toLowerCase();
+    return content.includes(query) && (tag === 'all' || (p.tags && p.tags.includes(tag)));
+  }).length;
+  if (currentPage * POSTS_PER_PAGE < total) {
+    currentPage++;
+    renderPosts();
+  }
+};
+</script>
 </body>
 </html>
