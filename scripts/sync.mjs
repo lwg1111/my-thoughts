@@ -1,12 +1,15 @@
-import { Octokit } from '@octokit/rest';
-import fs from 'fs';
-import path from 'path';
+import { Octokit } from "@octokit/rest";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const REPO_OWNER = 'lwg1111';
-const REPO_NAME = 'my-thoughts';
+const REPO_OWNER = "lwg1111";
+const REPO_NAME = "my-thoughts";
 
 const octokit = new Octokit({ auth: GITHUB_TOKEN });
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function fetchIssues() {
   let all = [], page = 1;
@@ -14,7 +17,7 @@ async function fetchIssues() {
     const { data } = await octokit.issues.listForRepo({
       owner: REPO_OWNER,
       repo: REPO_NAME,
-      state: 'open',
+      state: "open",
       per_page: 100,
       page,
     });
@@ -22,6 +25,7 @@ async function fetchIssues() {
     all = all.concat(data);
     page++;
   }
+
   return all.map(issue => ({
     title: issue.title,
     body: issue.body,
@@ -33,8 +37,8 @@ async function fetchIssues() {
 
 async function saveJSON() {
   const issues = await fetchIssues();
-  const dir = path.join(process.cwd());  // ✅ 写入仓库根目录
-  fs.writeFileSync(path.join(dir, 'data.json'), JSON.stringify(issues, null, 2));
+  const outputPath = path.join(__dirname, "..", "data.json");  // ✅ 写入根目录
+  fs.writeFileSync(outputPath, JSON.stringify(issues, null, 2));
 }
 
 saveJSON().catch(console.error);
