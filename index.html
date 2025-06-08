@@ -8,51 +8,107 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans p-6">
-  <div class="max-w-3xl mx-auto">
-    <h1 class="text-4xl font-bold mb-6 flex items-center gap-2">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold mb-4 flex items-center gap-2">
       🧠 <span>My GitHub Thoughts</span>
     </h1>
 
-    <div id="posts" class="space-y-12"></div>
+    <!-- Tag Filter -->
+    <div class="mb-6">
+      <label for="tagFilter" class="block mb-2 font-semibold">Filter by Tag:</label>
+      <select id="tagFilter" class="p-2 border rounded w-full">
+        <option value="">All</option>
+      </select>
+    </div>
+
+    <div id="posts" class="space-y-8"></div>
   </div>
 
   <script>
     async function loadPosts() {
-      try {
-        const res = await fetch('public/data.json');
-        const data = await res.json();
+      const res = await fetch('data.json');
+      const data = await res.json();
 
-        const container = document.getElementById('posts');
-        data.forEach(post => {
-          const el = document.createElement('div');
-          el.className = 'border-b border-gray-300 pb-6';
+      const tagSet = new Set();
+      const container = document.getElementById('posts');
+      const filter = document.getElementById('tagFilter');
 
-          // Markdown 轉 HTML
-          const renderedBody = marked.parse(post.body || '');
+      // 初始化 tag 筛选器
+      data.forEach(post => {
+        (post.tags || []).forEach(t => tagSet.add(t));
+      });
+      [...tagSet].sort().forEach(tag => {
+        const option = document.createElement('option');
+        option.value = tag;
+        option.textContent = tag;
+        filter.appendChild(option);
+      });
 
-          el.innerHTML = `
+      function renderPosts(filteredData) {
+        container.innerHTML = '';
+        filteredData.forEach(post => {
+          const div = document.createElement('div');
+          div.className = 'border-b pb-6';
+
+          const html = marked.parse(post.body || '');
+
+          div.innerHTML = `
             <h2 class="text-2xl font-semibold mb-2">
               <a href="${post.html_url}" target="_blank" class="text-blue-600 hover:underline">${post.title}</a>
             </h2>
-            <div class="prose prose-sm max-w-none mb-4">${renderedBody}</div>
-            <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString()}</div>
-            ${renderTags(post.tags || [])}
+            <div class="prose prose-sm max-w-none">${html}</div>
+            <div class="text-sm text-gray-500 mt-2">🕒 ${new Date(post.created_at).toLocaleString()}</div>
+            <div class="mt-1 text-xs text-gray-400">${(post.tags || []).join(', ')}</div>
           `;
 
-          container.appendChild(el);
+          // 嵌入视频：支持 YouTube 链接自动 iframe
+          div.querySelectorAll('a[href*="youtube.com/watch"]').forEach(link => {
+            const url = new URL(link.href);
+            const videoId = url.searchParams.get('v');
+            if (videoId) {
+              const iframe = document.createElement('iframe');
+              iframe.src = `https://www.youtube.com/embed/${videoId}`;
+              iframe.width = "100%";
+              iframe.height = "315";
+              iframe.className = "mt-4 rounded";
+              iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+              iframe.allowFullscreen = true;
+              link.replaceWith(iframe);
+            }
+          });
+
+          // 图片画廊处理（仅限多张图片场景）
+          const imgs = div.querySelectorAll('img');
+          if (imgs.length > 1) {
+            const gallery = document.createElement('div');
+            gallery.className = "grid grid-cols-2 md:grid-cols-3 gap-2 mt-4";
+            imgs.forEach(img => {
+              img.className = "w-full rounded shadow";
+              gallery.appendChild(img.cloneNode(true));
+              img.remove();
+            });
+            div.querySelector('.prose').appendChild(gallery);
+          }
+
+          container.appendChild(div);
         });
-      } catch (err) {
-        document.getElementById('posts').innerHTML =
-          `<div class="text-red-600">⚠️ Failed to load data.json: ${err.message}</div>`;
       }
+
+      renderPosts(data);
+
+      // 筛选逻辑
+      filter.addEventListener('change', () => {
+        const tag = filter.value;
+        if (!tag) return renderPosts(data);
+        const filtered = data.filter(post => (post.tags || []).includes(tag));
+        renderPosts(filtered);
+      });
     }
 
-    function renderTags(tags) {
-      if (!tags.length) return '';
-      return `<div class="mt-2 text-xs text-gray-400">🏷️ ${tags.join(', ')}</div>`;
-    }
-
-    loadPosts();
+    loadPosts().catch(err => {
+      document.getElementById('posts').innerHTML =
+        `<div class="text-red-600">⚠️ Failed to load data.json: ${err.message}</div>`;
+    });
   </script>
 </body>
 </html>
