@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Thoughts</title>
+  <title>My GitHub Thoughts</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -13,59 +13,43 @@
       🧠 <span>My GitHub Thoughts</span>
     </h1>
 
-    <input
-      id="search"
-      type="text"
-      placeholder="🔍 搜索关键词"
-      class="w-full mb-6 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
-
-    <div id="posts" class="space-y-6"></div>
+    <div id="posts" class="space-y-12"></div>
   </div>
 
   <script>
     async function loadPosts() {
       try {
-        const res = await fetch('./public/data.json');
+        const res = await fetch('public/data.json');
         const data = await res.json();
 
         const container = document.getElementById('posts');
-        const input = document.getElementById('search');
+        data.forEach(post => {
+          const el = document.createElement('div');
+          el.className = 'border-b border-gray-300 pb-6';
 
-        function render(filtered) {
-          container.innerHTML = '';
-          filtered.forEach(post => {
-            const el = document.createElement('div');
-            el.className = 'border-b border-gray-300 pb-4';
+          // Markdown 轉 HTML
+          const renderedBody = marked.parse(post.body || '');
 
-            el.innerHTML = `
-              <h2 class="text-2xl font-semibold mb-1">
-                <a href="${post.html_url}" target="_blank" class="text-blue-600 hover:underline">${post.title}</a>
-              </h2>
-              <div class="text-gray-700 prose prose-sm max-w-none mb-2">${marked.parse(post.body || '')}</div>
-              <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString()}</div>
-              <div class="mt-1 text-xs text-gray-400">${(post.tags || []).join(', ')}</div>
-            `;
-            container.appendChild(el);
-          });
-        }
+          el.innerHTML = `
+            <h2 class="text-2xl font-semibold mb-2">
+              <a href="${post.html_url}" target="_blank" class="text-blue-600 hover:underline">${post.title}</a>
+            </h2>
+            <div class="prose prose-sm max-w-none mb-4">${renderedBody}</div>
+            <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString()}</div>
+            ${renderTags(post.tags || [])}
+          `;
 
-        render(data);
-
-        input.addEventListener('input', () => {
-          const keyword = input.value.toLowerCase();
-          const filtered = data.filter(post =>
-            post.title.toLowerCase().includes(keyword) ||
-            post.body.toLowerCase().includes(keyword) ||
-            (post.tags || []).some(tag => tag.toLowerCase().includes(keyword))
-          );
-          render(filtered);
+          container.appendChild(el);
         });
-
       } catch (err) {
         document.getElementById('posts').innerHTML =
           `<div class="text-red-600">⚠️ Failed to load data.json: ${err.message}</div>`;
       }
+    }
+
+    function renderTags(tags) {
+      if (!tags.length) return '';
+      return `<div class="mt-2 text-xs text-gray-400">🏷️ ${tags.join(', ')}</div>`;
     }
 
     loadPosts();
