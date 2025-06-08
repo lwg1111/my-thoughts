@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My GitHub Thoughts</title>
+  <title>🧠 My GitHub Thoughts</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -13,106 +13,76 @@
       🧠 <span>My GitHub Thoughts</span>
     </h1>
 
-    <!-- 搜索框 -->
-    <input id="search" type="text" placeholder="搜索关键词..." class="w-full p-3 mb-4 border rounded">
-
-    <!-- 标签筛选 -->
-    <select id="tagFilter" class="mb-6 p-2 border rounded">
-      <option value="all">所有标签</option>
+    <!-- 筛选标签 -->
+    <label class="block mb-2 font-semibold text-gray-600">Filter by Tag:</label>
+    <select id="tagFilter" class="mb-6 border border-gray-300 rounded px-2 py-1">
+      <option value="">All</option>
     </select>
 
-    <div id="posts" class="space-y-6"></div>
+    <!-- 搜索框 -->
+    <input id="searchInput" class="mb-6 block w-full border border-gray-300 rounded px-3 py-2" placeholder="🔍 搜索关键词..." />
 
-    <!-- 分页 -->
-    <div id="pagination" class="mt-8 flex justify-center items-center gap-6 text-blue-600 font-medium"></div>
+    <div id="posts" class="space-y-10"></div>
   </div>
 
-  <script>
-    const POSTS_PER_PAGE = 5;
-    let posts = [], filtered = [], currentPage = 1;
+<script>
+  async function loadPosts() {
+    try {
+      const res = await fetch('public/data.json');
+      const data = await res.json();
 
-    function renderPosts() {
       const container = document.getElementById('posts');
-      container.innerHTML = '';
-      const start = (currentPage - 1) * POSTS_PER_PAGE;
-      const pagePosts = filtered.slice(start, start + POSTS_PER_PAGE);
+      const tagFilter = document.getElementById('tagFilter');
+      const searchInput = document.getElementById('searchInput');
 
-      for (const post of pagePosts) {
-        const div = document.createElement('div');
-        div.className = 'border-b pb-4';
-        const html = marked.parse(post.body || '')
-          .replace(/<img /g, '<img class="rounded shadow max-w-full cursor-pointer hover:opacity-90" ')  // 图片样式
-          .replace(/https:\/\/www\.youtube\.com\/watch\?v=([\w-]+)/g, '<iframe class="my-4 w-full aspect-video" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>');
-
-        div.innerHTML = `
-          <h2 class="text-2xl font-semibold text-blue-600 hover:underline mb-2">
-            <a href="${post.html_url}" target="_blank">${post.title}</a>
-          </h2>
-          <div class="prose prose-gray max-w-none mb-2">${html}</div>
-          <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString()}</div>
-          <div class="mt-1 text-xs text-gray-400">${(post.tags || []).join(', ')}</div>
-        `;
-        container.appendChild(div);
-      }
-
-      // pagination
-      const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
-      const p = document.getElementById('pagination');
-      p.innerHTML = '';
-      if (totalPages > 1) {
-        if (currentPage > 1) {
-          const prev = document.createElement('button');
-          prev.innerText = '上一页';
-          prev.onclick = () => { currentPage--; renderPosts(); };
-          p.appendChild(prev);
-        }
-        if (currentPage < totalPages) {
-          const next = document.createElement('button');
-          next.innerText = '下一页';
-          next.onclick = () => { currentPage++; renderPosts(); };
-          p.appendChild(next);
-        }
-      }
-    }
-
-    function applyFilters() {
-      const search = document.getElementById('search').value.toLowerCase();
-      const tag = document.getElementById('tagFilter').value;
-      filtered = posts.filter(p => {
-        const inTag = tag === 'all' || (p.tags || []).includes(tag);
-        const inSearch = p.title.toLowerCase().includes(search) || (p.body || '').toLowerCase().includes(search);
-        return inTag && inSearch;
+      // 所有标签
+      const tags = [...new Set(data.flatMap(post => post.tags || []))];
+      tags.forEach(tag => {
+        const opt = document.createElement('option');
+        opt.value = tag;
+        opt.textContent = tag;
+        tagFilter.appendChild(opt);
       });
-      currentPage = 1;
-      renderPosts();
-    }
 
-    async function loadPosts() {
-      try {
-        const res = await fetch('data.json');
-        posts = await res.json();
+      function renderPosts() {
+        const keyword = searchInput.value.toLowerCase();
+        const selectedTag = tagFilter.value;
 
-        // 生成标签列表
-        const tagSet = new Set();
-        posts.forEach(p => (p.tags || []).forEach(t => tagSet.add(t)));
-        for (const tag of tagSet) {
-          const opt = document.createElement('option');
-          opt.value = tag;
-          opt.innerText = tag;
-          document.getElementById('tagFilter').appendChild(opt);
-        }
+        container.innerHTML = '';
+        data.filter(post => {
+          const matchTag = selectedTag === '' || (post.tags || []).includes(selectedTag);
+          const matchKeyword = post.title.toLowerCase().includes(keyword) || post.body.toLowerCase().includes(keyword);
+          return matchTag && matchKeyword;
+        }).forEach(post => {
+          const el = document.createElement('div');
+          el.className = 'border-b pb-4';
 
-        document.getElementById('search').addEventListener('input', applyFilters);
-        document.getElementById('tagFilter').addEventListener('change', applyFilters);
+          // Markdown 转 HTML
+          const bodyHTML = marked.parse(post.body);
 
-        applyFilters();
-      } catch (e) {
-        document.getElementById('posts').innerHTML = `<div class="text-red-600">⚠️ Failed to load data.json: ${e.message}</div>`;
+          el.innerHTML = `
+            <h2 class="text-2xl font-semibold mb-2 text-blue-700">
+              <a href="${post.html_url}" target="_blank">${post.title}</a>
+            </h2>
+            <div class="prose prose-sm mb-2">${bodyHTML}</div>
+            <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString()}</div>
+            <div class="text-xs text-gray-400 mt-1">${(post.tags || []).join(', ')}</div>
+          `;
+
+          container.appendChild(el);
+        });
       }
-    }
 
-    loadPosts();
-  </script>
+      searchInput.addEventListener('input', renderPosts);
+      tagFilter.addEventListener('change', renderPosts);
+      renderPosts();
+    } catch (err) {
+      document.getElementById('posts').innerHTML =
+        `<div class="text-red-600 text-sm">⚠️ Failed to load data.json: ${err.message}</div>`;
+    }
+  }
+
+  loadPosts();
+</script>
 </body>
 </html>
-
