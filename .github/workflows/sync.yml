@@ -1,0 +1,32 @@
+name: Sync Issues to JSON
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天 0 点 UTC 自动运行
+  workflow_dispatch:     # 手动触发也可以用
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install @octokit/rest
+
+      - name: Run Sync Script
+        run: node scripts/sync.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit & Push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'auto: update data.json from issues'
+          file_pattern: 'public/data.json'
