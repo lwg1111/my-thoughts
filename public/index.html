@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <title>我的 AI 共创博客</title>
-  <style>
-    body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; line-height: 1.6; }
-    h1 { margin-bottom: 1rem; }
-    article { margin-bottom: 2rem; border-bottom: 1px solid #ddd; padding-bottom: 1rem; }
-    h2 a { text-decoration: none; color: #333; }
-    small { color: #666; }
-  </style>
-</head>
-<body>
-  <h1>我的 AI 共创博客</h1>
-  <div id="posts">加载中...</div>
-  <script>
-    fetch('data.json')
-      .then(r => r.json())
-      .then(posts => {
-        const container = document.getElementById('posts');
-        container.innerHTML = posts.map(p =>
-          `<article>
-             <h2><a href="${p.html_url}" target="_blank">${p.title}</a></h2>
-             <p>${p.body}</p>
-             <small>发布于 ${new Date(p.created_at).toLocaleString()}</small>
-           </article>`
-        ).join('') || '<p>暂无文章 🙏</p>';
-      })
-      .catch(err => {
-        document.getElementById('posts').innerHTML = `<p>加载失败：${err}</p>`;
-      });
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>我的 AI 共创博客</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-white text-gray-800 font-sans max-w-3xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">📝 我的 AI 共创博客</h1>
+    <div id="posts" class="space-y-6 text-base">加载中...</div>
+
+    <script>
+      fetch('data.json')
+        .then(res => res.json())
+        .then(posts => {
+          const container = document.getElementById('posts')
+          container.innerHTML = posts.length
+            ? posts
+                .map(
+                  p => `
+            <article class="border-b pb-4">
+              <h2 class="text-xl font-semibold text-blue-700">
+                <a href="${p.html_url}" target="_blank" class="hover:underline">${p.title}</a>
+              </h2>
+              <p class="mt-2 whitespace-pre-line">${p.body}</p>
+              <div class="text-sm text-gray-500 mt-2">发布于 ${new Date(
+                p.created_at
+              ).toLocaleString()}</div>
+              ${
+                p.labels?.length
+                  ? `<div class="mt-2 space-x-2">${p.labels
+                      .map(
+                        label => `<span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">${label}</span>`
+                      )
+                      .join('')}</div>`
+                  : ''
+              }
+            </article>
+          `
+                )
+                .join('')
+            : '<p class="text-gray-500">暂无内容。</p>'
+        })
+        .catch(err => {
+          document.getElementById('posts').innerHTML =
+            '<p class="text-red-500">加载失败：' + err + '</p>'
+        })
+    </script>
+  </body>
 </html>
