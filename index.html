@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My GitHub Thoughts</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans p-6">
   <div class="max-w-3xl mx-auto">
@@ -15,8 +16,8 @@
     <input
       id="search"
       type="text"
-      placeholder="🔍 搜索关键词…"
-      class="w-full mb-6 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-400"
+      placeholder="🔍 搜索关键词"
+      class="w-full mb-6 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
 
     <div id="posts" class="space-y-6"></div>
@@ -24,60 +25,46 @@
 
   <script>
     async function loadPosts() {
-      const container = document.getElementById('posts');
-      const input = document.getElementById('search');
-      let allPosts = [];
-
       try {
-        const res = await fetch('data.json');
+        const res = await fetch('./public/data.json');
         const data = await res.json();
 
-        if (!Array.isArray(data)) {
-          throw new Error('data.json 格式不正确，应该是数组。');
+        const container = document.getElementById('posts');
+        const input = document.getElementById('search');
+
+        function render(filtered) {
+          container.innerHTML = '';
+          filtered.forEach(post => {
+            const el = document.createElement('div');
+            el.className = 'border-b border-gray-300 pb-4';
+
+            el.innerHTML = `
+              <h2 class="text-2xl font-semibold mb-1">
+                <a href="${post.html_url}" target="_blank" class="text-blue-600 hover:underline">${post.title}</a>
+              </h2>
+              <div class="text-gray-700 prose prose-sm max-w-none mb-2">${marked.parse(post.body || '')}</div>
+              <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString()}</div>
+              <div class="mt-1 text-xs text-gray-400">${(post.tags || []).join(', ')}</div>
+            `;
+            container.appendChild(el);
+          });
         }
 
-        allPosts = data;
-        renderPosts(data);
+        render(data);
 
         input.addEventListener('input', () => {
           const keyword = input.value.toLowerCase();
-          const filtered = allPosts.filter(post =>
+          const filtered = data.filter(post =>
             post.title.toLowerCase().includes(keyword) ||
             post.body.toLowerCase().includes(keyword) ||
             (post.tags || []).some(tag => tag.toLowerCase().includes(keyword))
           );
-          renderPosts(filtered);
+          render(filtered);
         });
 
       } catch (err) {
-        container.innerHTML = `
-          <div class="text-red-600 text-sm">
-            ⚠️ Failed to load data.json: ${err.message}
-          </div>`;
-      }
-
-      function renderPosts(posts) {
-        container.innerHTML = '';
-        if (!posts.length) {
-          container.innerHTML = '<p class="text-gray-500">暂无内容</p>';
-          return;
-        }
-
-        posts.forEach(post => {
-          const el = document.createElement('div');
-          el.className = 'border-b border-gray-300 pb-4';
-
-          el.innerHTML = `
-            <h2 class="text-2xl font-semibold mb-1">
-              <a href="${post.html_url}" target="_blank" class="text-blue-600 hover:underline">${post.title}</a>
-            </h2>
-            <p class="text-gray-700 mb-2">${post.body}</p>
-            <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString()}</div>
-            <div class="mt-1 text-xs text-gray-400">${(post.tags || []).join(', ')}</div>
-          `;
-
-          container.appendChild(el);
-        });
+        document.getElementById('posts').innerHTML =
+          `<div class="text-red-600">⚠️ Failed to load data.json: ${err.message}</div>`;
       }
     }
 
