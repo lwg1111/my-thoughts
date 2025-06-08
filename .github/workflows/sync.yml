@@ -9,7 +9,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # 👈 关键权限，必须加！
+      contents: write
 
     steps:
       - name: Checkout Repo
@@ -32,4 +32,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'auto: update data.json from issues'
-          file_pattern: 'public/data.json'
+          file_pattern: 'data.json'  # ✅ 改为根目录文件
