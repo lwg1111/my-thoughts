@@ -37,7 +37,7 @@ async function fetchIssues() {
     body: issue.body,
     created_at: issue.created_at,
     html_url: issue.html_url,
-    labels: issue.labels.map(l => l.name),
+    tags: issue.labels.map(l => l.name),
   }));
 }
 
