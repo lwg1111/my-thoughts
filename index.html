@@ -6,133 +6,83 @@
   <title>🧠 My GitHub Thoughts</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-  <style>
-    iframe {
-      width: 100%;
-      max-width: 720px;
-      height: 405px;
-      margin-top: 1rem;
-    }
-    .markdown-body img {
-      cursor: pointer;
-      max-width: 100%;
-      height: auto;
-    }
-  </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans p-6">
   <div class="max-w-3xl mx-auto">
-    <h1 class="text-4xl font-bold mb-6 flex items-center gap-3">🧠 My GitHub Thoughts</h1>
+    <h1 class="text-4xl font-bold mb-6 flex items-center gap-2">
+      🧠 <span>My GitHub Thoughts</span>
+    </h1>
 
-    <div class="mb-6 flex flex-wrap gap-4">
-      <input id="search" type="text" placeholder="搜索关键词..."
-        class="w-full p-3 border rounded shadow-sm text-lg" />
-      <select id="tagFilter" class="p-2 rounded border">
-        <option value="all">所有标签</option>
-      </select>
-    </div>
+    <!-- 筛选标签 -->
+    <label class="block mb-2 font-semibold text-gray-600">Filter by Tag:</label>
+    <select id="tagFilter" class="mb-6 border border-gray-300 rounded px-2 py-1">
+      <option value="">All</option>
+    </select>
+
+    <!-- 搜索框 -->
+    <input id="searchInput" class="mb-6 block w-full border border-gray-300 rounded px-3 py-2" placeholder="🔍 搜索关键词..." />
 
     <div id="posts" class="space-y-10"></div>
-
-    <div class="mt-8 flex justify-center gap-4 text-blue-500">
-      <button id="prevBtn" class="hover:underline">上一页</button>
-      <button id="nextBtn" class="hover:underline">下一页</button>
-    </div>
   </div>
 
 <script>
-const POSTS_PER_PAGE = 5;
-let allPosts = [], currentPage = 1;
+  async function loadPosts() {
+    try {
+      const res = await fetch('public/data.json');
+      const data = await res.json();
 
-function renderMarkdown(body) {
-  return marked.parse(body).replace(
-    /<img src=\"(.*?)\"/g,
-    (match, src) => `<a href="${src}" class="glightbox"><img src="${src}"`
-  ).replace(
-    /https:\/\/www\.youtube\.com\/watch\?v=([\w-]+)/g,
-    (match, id) => `<iframe src="https://www.youtube.com/embed/${id}" allowfullscreen></iframe>`
-  );
-}
+      const container = document.getElementById('posts');
+      const tagFilter = document.getElementById('tagFilter');
+      const searchInput = document.getElementById('searchInput');
 
-function renderPosts() {
-  const tag = document.getElementById('tagFilter').value;
-  const query = document.getElementById('search').value.toLowerCase();
-  const filtered = allPosts.filter(p => {
-    const content = (p.title + p.body).toLowerCase();
-    const matchQuery = content.includes(query);
-    const matchTag = tag === 'all' || (p.tags && p.tags.includes(tag));
-    return matchQuery && matchTag;
-  });
-  const start = (currentPage - 1) * POSTS_PER_PAGE;
-  const visible = filtered.slice(start, start + POSTS_PER_PAGE);
+      // 所有标签
+      const tags = [...new Set(data.flatMap(post => post.tags || []))];
+      tags.forEach(tag => {
+        const opt = document.createElement('option');
+        opt.value = tag;
+        opt.textContent = tag;
+        tagFilter.appendChild(opt);
+      });
 
-  const container = document.getElementById('posts');
-  container.innerHTML = '';
+      function renderPosts() {
+        const keyword = searchInput.value.toLowerCase();
+        const selectedTag = tagFilter.value;
 
-  visible.forEach(post => {
-    const el = document.createElement('div');
-    el.innerHTML = `
-      <h2 class="text-2xl font-bold text-blue-600 mb-2">
-        <a href="${post.html_url}" target="_blank">${post.title}</a>
-      </h2>
-      <div class="markdown-body prose max-w-full">${renderMarkdown(post.body)}</div>
-      <div class="text-sm text-gray-500 mt-2">🕒 ${new Date(post.created_at).toLocaleString()}</div>
-      <div class="text-xs text-gray-400">${post.tags?.join(', ') || ''}</div>
-    `;
-    container.appendChild(el);
-  });
-  GLightbox({ selector: '.glightbox' });
-}
+        container.innerHTML = '';
+        data.filter(post => {
+          const matchTag = selectedTag === '' || (post.tags || []).includes(selectedTag);
+          const matchKeyword = post.title.toLowerCase().includes(keyword) || post.body.toLowerCase().includes(keyword);
+          return matchTag && matchKeyword;
+        }).forEach(post => {
+          const el = document.createElement('div');
+          el.className = 'border-b pb-4';
 
-fetch('data.json')
-  .then(res => res.json())
-  .then(data => {
-    allPosts = data;
-    const tags = new Set();
-    data.forEach(p => p.tags?.forEach(t => tags.add(t)));
-    tags.forEach(tag => {
-      const opt = document.createElement('option');
-      opt.value = tag;
-      opt.textContent = tag;
-      document.getElementById('tagFilter').appendChild(opt);
-    });
-    renderPosts();
-  })
-  .catch(err => {
-    document.getElementById('posts').innerHTML = `<div class="text-red-500">⚠️ Failed to load data.json: ${err.message}</div>`;
-  });
+          // Markdown 转 HTML
+          const bodyHTML = marked.parse(post.body);
 
-document.getElementById('search').addEventListener('input', () => {
-  currentPage = 1;
-  renderPosts();
-});
+          el.innerHTML = `
+            <h2 class="text-2xl font-semibold mb-2 text-blue-700">
+              <a href="${post.html_url}" target="_blank">${post.title}</a>
+            </h2>
+            <div class="prose prose-sm mb-2">${bodyHTML}</div>
+            <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString()}</div>
+            <div class="text-xs text-gray-400 mt-1">${(post.tags || []).join(', ')}</div>
+          `;
 
-document.getElementById('tagFilter').addEventListener('change', () => {
-  currentPage = 1;
-  renderPosts();
-});
+          container.appendChild(el);
+        });
+      }
 
-document.getElementById('prevBtn').onclick = () => {
-  if (currentPage > 1) {
-    currentPage--;
-    renderPosts();
+      searchInput.addEventListener('input', renderPosts);
+      tagFilter.addEventListener('change', renderPosts);
+      renderPosts();
+    } catch (err) {
+      document.getElementById('posts').innerHTML =
+        `<div class="text-red-600 text-sm">⚠️ Failed to load data.json: ${err.message}</div>`;
+    }
   }
-};
 
-document.getElementById('nextBtn').onclick = () => {
-  const tag = document.getElementById('tagFilter').value;
-  const query = document.getElementById('search').value.toLowerCase();
-  const total = allPosts.filter(p => {
-    const content = (p.title + p.body).toLowerCase();
-    return content.includes(query) && (tag === 'all' || (p.tags && p.tags.includes(tag)));
-  }).length;
-  if (currentPage * POSTS_PER_PAGE < total) {
-    currentPage++;
-    renderPosts();
-  }
-};
+  loadPosts();
 </script>
 </body>
 </html>
