@@ -14,35 +14,35 @@
     <div id="posts" class="space-y-6"></div>
   </div>
 
- <script>
-  async function loadPosts() {
-    try {
-      const res = await fetch('data.json');
-      const data = await res.json();
+  <script>
+    async function loadPosts() {
+      try {
+        const res = await fetch('public/data.json'); // ✅ 修正路径
+        const data = await res.json();
 
-      const container = document.getElementById('posts');
-      data.forEach(post => {
-        const el = document.createElement('div');
-        el.className = 'border-b border-gray-300 pb-4';
+        const container = document.getElementById('posts');
+        data.forEach(post => {
+          const el = document.createElement('div');
+          el.className = 'border-b border-gray-300 pb-4';
 
-        el.innerHTML = `
-          <h2 class="text-2xl font-semibold mb-1">
-            <a href="${post.html_url}" target="_blank" class="text-blue-600 hover:underline">${post.title}</a>
-          </h2>
-          <p class="text-gray-700 mb-2">${post.body}</p>
-          <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString()}</div>
-          <div class="mt-1 text-xs text-gray-400">${post.tags.join(', ')}</div>
-        `;
+          el.innerHTML = `
+            <h2 class="text-2xl font-semibold mb-1">
+              <a href="${post.html_url}" target="_blank" class="text-blue-600 hover:underline">${post.title}</a>
+            </h2>
+            <p class="text-gray-700 mb-2">${post.body}</p>
+            <div class="text-sm text-gray-500">🕒 ${new Date(post.created_at).toLocaleString()}</div>
+            <div class="mt-1 text-xs text-gray-400">${post.tags.join(', ')}</div>
+          `;
 
-        container.appendChild(el);
-      });
-    } catch (err) {
-      document.getElementById('posts').innerHTML =
-        `<div class="text-red-600">⚠️ Failed to load data.json: ${err.message}</div>`;
+          container.appendChild(el);
+        });
+      } catch (err) {
+        document.getElementById('posts').innerHTML =
+          `<div class="text-red-600">⚠️ Failed to load data.json: ${err.message}</div>`;
+      }
     }
-  }
 
-  loadPosts();
-</script>
+    loadPosts();
+  </script>
 </body>
 </html>
