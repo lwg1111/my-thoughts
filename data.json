@@ -1,5 +1,21 @@
 [
   {
+    "title": "YouTube 发了几个视频",
+    "body": "用NotebookLM 生成对话，再把字幕抓出来，然后用Chatgpt生成一个封面，把封面和音频合成为视频上传到YouTube\n\n灭苦之道\n陈撄宁\n道德经\n先传了三个\n接下来把伤寒论，金匮要略也传上去",
+    "created_at": "2025-06-09T00:51:04Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/7",
+    "tags": []
+  },
+  {
+    "title": "ChatGPT模型",
+    "body": "日常全能——4o（o as omni）\n复杂推理——o3 \n深度研究——DR（不用选模型）\n写作辅助——4.5\n编程专用——4.1\n蒸馏勿用——mini",
+    "created_at": "2025-06-08T21:12:35Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/6",
+    "tags": [
+      "日常"
+    ]
+  },
+  {
     "title": "Chatgpt",
     "body": "辅助编程，经常前后矛盾，最后总算搞定了",
     "created_at": "2025-06-08T20:57:30Z",
