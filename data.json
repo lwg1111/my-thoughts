@@ -1,10 +1,72 @@
 [
   {
+    "title": "VS CODE+Gemini 校对字幕",
+    "body": "太长的字幕校对完，没法一键保存，每次出错\n直接到Gemini里面去做也不行\n最后让Gemini在VS CODE里，直接把改好的字幕内容贴出来，重新开个文件粘贴进去就行了\n非常棒",
+    "created_at": "2025-06-09T23:12:59Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/15",
+    "tags": []
+  },
+  {
+    "title": "电子书",
+    "body": "https://www.dushupai.com/\n搭配电子书转音频软件，就可以听电子书了\n\nAudiblez - 免费 - 支持 8 种中文音色 + 其他语音\n\nTTS 用得是 Kokoro 82M\n\n亮点\n• 可以把任意电子书转成 mp4\n• 支持中文 8 种不同音色 \n• 支持 9 种语言\n\n官网试听音色\nclaudio.uk/posts/audiblez…\n\nGithub\ngithub.com/santinic/audib…",
+    "created_at": "2025-06-09T13:13:05Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/14",
+    "tags": []
+  },
+  {
+    "title": "调整字幕时间轴",
+    "body": "如何调整字幕的时间轴，是个问题，我要在网上找一找",
+    "created_at": "2025-06-09T12:54:34Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/13",
+    "tags": []
+  },
+  {
+    "title": "字幕查验",
+    "body": "用Gemini在VS Code里检查修改Whisper生成的字幕文件\nGemini 太牛了",
+    "created_at": "2025-06-09T12:48:58Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/12",
+    "tags": []
+  },
+  {
+    "title": "下载视频",
+    "body": "yt-dlp\ngithub.com/yt-dlp/yt-dlp\n• 免费\n• 用命令行下载\n• 所有视频，所有涩涩\n\ncobalt  \ncobalt.tools\n• 免费 \n• 支持所有主流网站视频下载\n\nDownni\ndownni.com\n• 免费试用 7 天 \n• 支持所有主流视频网站，包括涩涩\n\nRaycast Video Downloader \nraycast.com/vimtor/video-d…\n• 插件用的是 yt-dlp 的能力\n• 所以是永久免费\n• 所有视频，所有涩涩\n\nYoutube Converter\nutomp3.com/youtube-conver…\n• 免费\n• 只能下载 youtube",
+    "created_at": "2025-06-09T12:17:14Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/11",
+    "tags": []
+  },
+  {
+    "title": "早起",
+    "body": "最近习惯了早起，每天5:00多就醒了\n先站半个小时",
+    "created_at": "2025-06-09T11:58:52Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/10",
+    "tags": []
+  },
+  {
+    "title": "包饺子",
+    "body": "今天包了顿饺子吃\n周五在trader Joe's买的肉馅\n周六在大华九九买的面粉和韭菜白菜",
+    "created_at": "2025-06-09T02:19:29Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/9",
+    "tags": [
+      "吃喝"
+    ]
+  },
+  {
+    "title": "今天的成就",
+    "body": "在这里做了个自动发布的页面\n上传了几个YouTube的讲解书籍的对话，涉及到生成对话，分解出台词，生成封面，生成视频",
+    "created_at": "2025-06-09T02:17:37Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/8",
+    "tags": [
+      "日常"
+    ]
+  },
+  {
     "title": "YouTube 发了几个视频",
-    "body": "用NotebookLM 生成对话，再把字幕抓出来，然后用Chatgpt生成一个封面，把封面和音频合成为视频上传到YouTube\n\n灭苦之道\n陈撄宁\n道德经\n先传了三个\n接下来把伤寒论，金匮要略也传上去",
+    "body": "用NotebookLM 生成对话，再把字幕抓出来，然后用Chatgpt生成一个封面，把封面和音频合成为视频上传到YouTube\n\n灭苦之道\n陈撄宁\n道德经\n伤寒论\n金匮要略",
     "created_at": "2025-06-09T00:51:04Z",
     "html_url": "https://github.com/lwg1111/my-thoughts/issues/7",
-    "tags": []
+    "tags": [
+      "日常"
+    ]
   },
   {
     "title": "ChatGPT模型",
