@@ -1,5 +1,12 @@
 [
   {
+    "title": "翻译",
+    "body": "下面是宝玉的提示词，他用的是Gemini 2.5 Pro\n\n“请结合上面的解释重写原始英文，不必完全一对一翻译英文原文，而是根据意思用中文重写”",
+    "created_at": "2025-06-11T00:41:52Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/16",
+    "tags": []
+  },
+  {
     "title": "VS CODE+Gemini 校对字幕",
     "body": "太长的字幕校对完，没法一键保存，每次出错\n直接到Gemini里面去做也不行\n最后让Gemini在VS CODE里，直接把改好的字幕内容贴出来，重新开个文件粘贴进去就行了\n非常棒",
     "created_at": "2025-06-09T23:12:59Z",
