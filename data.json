@@ -1,5 +1,26 @@
 [
   {
+    "title": "推特视频下载",
+    "body": "https://github.com/ezshine/twitterxdownload",
+    "created_at": "2025-06-12T00:18:59Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/19",
+    "tags": []
+  },
+  {
+    "title": "YouTube做视频",
+    "body": "素材用网上免费的，声音是aivocal.io/ai-voice做的；剪辑软件是剪映。",
+    "created_at": "2025-06-11T17:57:52Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/18",
+    "tags": []
+  },
+  {
+    "title": "把书籍生成对话的又一个软件",
+    "body": "https://listenhub.ai",
+    "created_at": "2025-06-11T04:19:25Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/17",
+    "tags": []
+  },
+  {
     "title": "翻译",
     "body": "下面是宝玉的提示词，他用的是Gemini 2.5 Pro\n\n“请结合上面的解释重写原始英文，不必完全一对一翻译英文原文，而是根据意思用中文重写”",
     "created_at": "2025-06-11T00:41:52Z",
@@ -15,7 +36,7 @@
   },
   {
     "title": "电子书",
-    "body": "https://www.dushupai.com/\n搭配电子书转音频软件，就可以听电子书了\n\nAudiblez - 免费 - 支持 8 种中文音色 + 其他语音\n\nTTS 用得是 Kokoro 82M\n\n亮点\n• 可以把任意电子书转成 mp4\n• 支持中文 8 种不同音色 \n• 支持 9 种语言\n\n官网试听音色\nclaudio.uk/posts/audiblez…\n\nGithub\ngithub.com/santinic/audib…",
+    "body": "https://www.dushupai.com/\n\n搭配电子书转音频软件，就可以听电子书了\n\nAudiblez - 免费 - 支持 8 种中文音色 + 其他语音\n\nTTS 用得是 Kokoro 82M\n\n亮点\n• 可以把任意电子书转成 mp4\n• 支持中文 8 种不同音色 \n• 支持 9 种语言\n\n官网试听音色\nclaudio.uk/posts/audiblez…\n\nGithub\ngithub.com/santinic/audib…",
     "created_at": "2025-06-09T13:13:05Z",
     "html_url": "https://github.com/lwg1111/my-thoughts/issues/14",
     "tags": []
