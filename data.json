@@ -1,5 +1,33 @@
 [
   {
+    "title": "睡前故事",
+    "body": "https://beddystories.com/zh/",
+    "created_at": "2025-06-12T15:20:19Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/23",
+    "tags": []
+  },
+  {
+    "title": "短视频工具",
+    "body": "https://www.revid.ai/\n\n一个多合一的工具，用来创建短视频。\n\n使用简单的文本提示，为YouTube、Instagram和TikTok创建视频。",
+    "created_at": "2025-06-12T15:16:54Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/22",
+    "tags": []
+  },
+  {
+    "title": "截屏工具",
+    "body": "https://github.com/flameshot-org/flameshot\n\n它不仅能快速截图，还内置了完整的编辑功能，画箭头、加文字、打马\n\n主要功能：\n\n- 支持多种绘图工具：铅笔、箭头、矩形、圆形等\n- 内置文字添加和像素化打码功能  \n- 快捷键操作，支持延时截图和全屏截图\n- 一键上传到 Imgur 或复制到剪贴板\n- 自定义外观和颜色，适应个人习惯",
+    "created_at": "2025-06-12T13:27:40Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/21",
+    "tags": []
+  },
+  {
+    "title": "免费产出YouTube的流程",
+    "body": "免费产出YouTube的流程，昨天4.7万观看，简单做个sop分享下，所用工具都亲测免费，有条件也可以付费提效\n详细步骤及今天做出来的样&都丢下面了：\n用到的工具List按需移步：\n配音：aivocal.io/ai-voice\n视频素材：coverr.co\nAI视频：videotube.ai",
+    "created_at": "2025-06-12T12:06:55Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/20",
+    "tags": []
+  },
+  {
     "title": "推特视频下载",
     "body": "https://github.com/ezshine/twitterxdownload",
     "created_at": "2025-06-12T00:18:59Z",
