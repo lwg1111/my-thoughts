@@ -1,5 +1,33 @@
 [
   {
+    "title": "音频转文本 极速",
+    "body": "https://parakeettdt.com/",
+    "created_at": "2025-06-20T00:17:28Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/34",
+    "tags": []
+  },
+  {
+    "title": "第一个作品，提取字幕",
+    "body": "https://github.com/lwg1111/whisper-subtitle-generator\n\n今天做了第一个作品，从音频中，用Whisper提取中文字幕",
+    "created_at": "2025-06-19T18:42:01Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/33",
+    "tags": []
+  },
+  {
+    "title": "Design logo",
+    "body": "https://github.com/bestony/logoly",
+    "created_at": "2025-06-19T05:30:52Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/32",
+    "tags": []
+  },
+  {
+    "title": "Gemini 2.5 Pro 提取YouTube字幕文件",
+    "body": "输入YouTube网址，输出翻译后srt文件。\n工作流也很简单，两个提示词:\n1，通过网址理解视频，生成原文字幕\n2，将原文字幕翻译，转成srt格式输出\n翻译质量可通过提示词来优化，难点是时间轴的处理\n优点: 竟可区分说话人，并读取视觉内容…",
+    "created_at": "2025-06-19T05:29:49Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/31",
+    "tags": []
+  },
+  {
     "title": "下载视频",
     "body": "https://www.datatool.vip/",
     "created_at": "2025-06-18T04:11:29Z",
