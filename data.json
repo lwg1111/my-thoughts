@@ -1,5 +1,12 @@
 [
   {
+    "title": "PDF解密",
+    "body": "安装（macOS）：brew install qpdf\n\nqpdf --decrypt input.pdf output.pdf",
+    "created_at": "2025-06-20T03:07:50Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/35",
+    "tags": []
+  },
+  {
     "title": "音频转文本 极速",
     "body": "https://parakeettdt.com/",
     "created_at": "2025-06-20T00:17:28Z",
