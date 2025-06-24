@@ -1,5 +1,12 @@
 [
   {
+    "title": "一款读书软件",
+    "body": "https://github.com/johnfactotum/foliate\n\n一款高颜值的电子书阅读器：Foliate，让我们阅读变得更加高效便捷。\n\n不仅提供简洁美观的界面，还集成了维基百科查词、智能注释、文本朗读等丰富功能。\n\nGitHub：github.com/johnfactotum/f…\n\n主要功能：\n\n- 简洁直观的界面设计，支持暗色模式护眼阅读\n- 维基百科实时查词功能，随时了解词汇含义\n- 强大的注释和书签系统，方便学习和研究\n- 文本朗读功能，解放双眼享受听书体验\n- 多格式兼容，支持 EPUB、PDF、Kindle 等主流电子书格式",
+    "created_at": "2025-06-23T13:57:36Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/39",
+    "tags": []
+  },
+  {
     "title": "自媒体工具清单",
     "body": "1、拍摄：iPhone 前置 + 开拍 app（有 DJI 麦克风但懒得用）\n2、支架：Ulanzi SK-10 散热充电支架（同时散热+无线充电）\n3、剪辑：开拍 app 完成拍摄后，导入到剪映 mac 版里面剪辑\n4、封面制作：sketch\n5、多平台内容发布：arc 浏览器 + 爱贝壳（浏览器插件）\n6、智能体对外共享：国内模型用腾讯元器、海外模型用 monica\n7、命令行终端：Warp\n8、移动端语音转文字：iOS 系统听写\n9、桌面端语音转文字：豆包 app（mac 版）\n10、批量语音文件转文字：通义听悟（web 版）\n11、网上看见的音视频转文字：get 笔记（iOS）\n12、网上看见的音视频下载：下载狗\n13、本地文本文件转成知识库：ima 知识库\n14、社交媒体内容转成知识库：get 笔记知识库\n15、文本文件批量 OCR：MinerU（web 版）\n16、课程上传、交付：飞书文档\n17、推文下载：twillot\n18、博主标题爬取分析：Dia 浏览器\n19、博主数据爬取下载：智小红、智小抖\n20、AI 邮件客户端：Filo（iOS）",
     "created_at": "2025-06-22T16:07:50Z",
