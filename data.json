@@ -1,5 +1,12 @@
 [
   {
+    "title": "PDF工具",
+    "body": "https://pdftoolmy.com/home-legacy?lang=en_US",
+    "created_at": "2025-06-28T15:40:33Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/40",
+    "tags": []
+  },
+  {
     "title": "一款读书软件",
     "body": "https://github.com/johnfactotum/foliate\n\n一款高颜值的电子书阅读器：Foliate，让我们阅读变得更加高效便捷。\n\n不仅提供简洁美观的界面，还集成了维基百科查词、智能注释、文本朗读等丰富功能。\n\nGitHub：github.com/johnfactotum/f…\n\n主要功能：\n\n- 简洁直观的界面设计，支持暗色模式护眼阅读\n- 维基百科实时查词功能，随时了解词汇含义\n- 强大的注释和书签系统，方便学习和研究\n- 文本朗读功能，解放双眼享受听书体验\n- 多格式兼容，支持 EPUB、PDF、Kindle 等主流电子书格式",
     "created_at": "2025-06-23T13:57:36Z",
