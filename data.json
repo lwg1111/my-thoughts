@@ -1,5 +1,19 @@
 [
   {
+    "title": "管理聊天记录的工具",
+    "body": "https://github.com/sjzar/chatlog\n\n亮点 \n• 支持从本地数据库文件获取聊天数据 \n• 提供多种访问方式，可以浏览器或 AI 助手访问\n• 支持多媒体数据，聊天数据全文索引\n• 聊天数据统计和 Dashboard 展示 \n• 支持 MCP SSE 协议，便于集成",
+    "created_at": "2025-07-04T00:14:08Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/44",
+    "tags": []
+  },
+  {
+    "title": "Mac工具",
+    "body": "Cursor: 这个不必多说，AI时代程序员必备IDE，已经很长时间没有打开VSCode和PyCharm了。\n\nBetter Display: 27寸副屏默认显示太糊了， 打开Better Display的高分辨率(HiDPI)选项， 瞬间清晰了。效果堪比近视眼戴上眼镜。\n\nOrbstack: 替代 Docker Desktop 的容器神器，占资源更少，体验更顺滑（心理加成也可能有）。\n\nNotion: 现在记笔记用得最多的就是它了， 其次是苹果自带的备忘录。\n\n图书： 没错， 就是苹果自带的图书。现在有啥想看的书， 就去Zlibrary下载，下载好后直接用图书打开就行了。最主要的是，它自带云端同步功能， Mac上打开， Ipad和Iphone也会自动同步书籍资源以及阅读进度。\n\nRaycast: 内建的 Spotlight 替代功能非常强大，已经完全取代我日常对 Mac 自带 Spotlight 的使用，command + 空格 现在是我最频繁使用的快捷键组合。另外，Raycast 自带的剪贴板管理器也极其好用，按下 command + shift + c 即可快速调用历史复制记录，找回剪贴板内容变得更高效。\n\nMihomo Party: 一款科学上网工具。 我的科学上网工具由最初的V2ray, 再到ClashX， 再到如今的Mihomo Party， 功能慢慢强大, UI也更加好看。而且Mihomo Party的虚拟网卡功能还是很好用的， 之前使用ClashX， 当需要在终端访问外网时，每次都要去ClashX复制一下终端命令。现在直接Mihomo Party的虚拟网卡功能常开就完事了。另外，最近又发现一个， Clash Verge Rev看起来也不错， 后续尝试一下（star数比Mihomo Party多很多）。\n\nCleanShot X: 非常好用的截图软件，滚动截图也不在话下，还支持录制GIF和视频。截图之前用的是Xnip，也不错， 更轻量级， 操作路径更短一点。\n\nDataGrip: JetBrains 出品的数据库管理工具。用来用去， 还是DataGrip最好用，而且最近Jetbrain全家桶有一个免费使用1年的活动，大伙可以去试下。\n\nThings: 简单好用的 To-Do 工具，轻便又不失高级感。之前试图转 OmniFocus，但教程一看就退缩了😂。\n\nXmind: 画思维导图的不二之选，尤其适合做读书笔记和结构化学习。现在读书笔记的思维导图都用它来画。 \n\nNetNewswire: 目前正在使用的RSS订阅软件，免费开源， 主要用来阅读一些技术文章的推送。\n\nTypora: 写 Markdown、读 Markdown 的首选工具，极简界面提高专注力。\n\nQuark网盘: 88VIP送6T空间，百度网盘可以不用续费了。\n\nAPTV: 一款多平台的电视直播播放工具，顺便求一下好用不卡的直播源。\n\nCheers: 有点跑题了，但这个确实好用， 其实它是个Apple TV上的B站客户端。之前用手机投屏电视上看B站， 总感觉不得劲，少了弹幕，画质也被压缩了。使用Cheers就不用投屏了， 看动漫有弹幕了， 画质也是真4K了，聪明的智商又占领高地了。\n\n大家有什么比较好用的Mac工具， 欢迎在评论区分享讨论🧑‍💻",
+    "created_at": "2025-07-03T18:55:11Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/43",
+    "tags": []
+  },
+  {
     "title": "高质量美学海报生成框架",
     "body": "https://github.com/MeiGen-AI/PosterCraft\n\n这效果太惊艳了，高质量美学海报生成框架，通过四阶段训练实现，专注于精确文本渲染与抽象艺术的无缝集成。\n基于三个核心模型\nFLUX.1-dev：基础文生图 \nQwen3-8B：高级语言处理，支持提示与文本分析\nPosterCraft 变体：v1_RL（美学RL），v1_Reflect（视觉反馈）",
     "created_at": "2025-07-02T12:08:05Z",
@@ -84,8 +98,8 @@
     "tags": []
   },
   {
-    "title": "下载视频",
-    "body": "https://www.datatool.vip/",
+    "title": "下载视频（要注册放弃）",
+    "body": "https://www.datatool.vip/\n\n需要注册，不好用，放弃",
     "created_at": "2025-06-18T04:11:29Z",
     "html_url": "https://github.com/lwg1111/my-thoughts/issues/30",
     "tags": []
