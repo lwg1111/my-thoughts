@@ -1,5 +1,19 @@
 [
   {
+    "title": "AI音效师",
+    "body": "https://github.com/FunAudioLLM/ThinkSound\n\n阿里通义实验室刚刚开源了其首个音频生成模型：ThinkSound，声画同步效果看起来非常好\n\nThinkSound把CoT用到了音频生成上，让AI学会一步步想清楚画面事件与声音间的关系，从而实现音视频高保真、强同步\n\n支持视频、文本、音频或其组合等任意模态生成音频\n\n统一模型架构，可生成、编辑、交互式工作流",
+    "created_at": "2025-07-04T14:45:50Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/46",
+    "tags": []
+  },
+  {
+    "title": "Agent 的记忆模块",
+    "body": "https://github.com/RichmondAlake/memorizz\n\nMemoRizz  - 免费开源 MIT - 能实现持久记忆绝对是 Agent 拟人化非常重要的一步\n\n亮点\n• MemoRizz 是一个为 AI 应用设计的内存管理库，支持 Agent 持久记忆和语义搜索\n• 集成 MongoDB 和向量检索，能让 AI 记住多轮对话、知识点、工具调用、个性化人设等\n• 支持多 Agent 协作、工具自动发现、函数注册，扩展性强\n• 安装简单，pip 一键装，需配置 OpenAI API 和 MongoDB\n• 仅供学习和研究，暂不建议生产环境用，非常不错",
+    "created_at": "2025-07-04T14:44:58Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/45",
+    "tags": []
+  },
+  {
     "title": "管理聊天记录的工具",
     "body": "https://github.com/sjzar/chatlog\n\n亮点 \n• 支持从本地数据库文件获取聊天数据 \n• 提供多种访问方式，可以浏览器或 AI 助手访问\n• 支持多媒体数据，聊天数据全文索引\n• 聊天数据统计和 Dashboard 展示 \n• 支持 MCP SSE 协议，便于集成",
     "created_at": "2025-07-04T00:14:08Z",
