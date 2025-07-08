@@ -1,5 +1,19 @@
 [
   {
+    "title": "使用面向个人的 Gemini Code Assist 编写代码",
+    "body": "https://developers.google.com/gemini-code-assist/docs/write-code-gemini?hl=zh-cn",
+    "created_at": "2025-07-07T20:17:13Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/48",
+    "tags": []
+  },
+  {
+    "title": "历史地图",
+    "body": "https://www.oldmapsonline.org/en\n\n昨天闲逛发现的免费网站：oldmapsonline.org\n简直是历史爱好者的福音，通过一个时间线可以显示那个时候的世界地图，国家，区域，还可以选择更多的信息，比如当时的皇帝，战役等等。\n\n做的非常棒，一下就看了很久，还有旧地图搜集，非常有趣的网站，我觉得就是这些有趣的网站让我觉得 web 世界真的是有非常多小众又精彩的资源。",
+    "created_at": "2025-07-07T18:03:52Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/47",
+    "tags": []
+  },
+  {
     "title": "AI音效师",
     "body": "https://github.com/FunAudioLLM/ThinkSound\n\n阿里通义实验室刚刚开源了其首个音频生成模型：ThinkSound，声画同步效果看起来非常好\n\nThinkSound把CoT用到了音频生成上，让AI学会一步步想清楚画面事件与声音间的关系，从而实现音视频高保真、强同步\n\n支持视频、文本、音频或其组合等任意模态生成音频\n\n统一模型架构，可生成、编辑、交互式工作流",
     "created_at": "2025-07-04T14:45:50Z",
