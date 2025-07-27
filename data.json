@@ -1,5 +1,12 @@
 [
   {
+    "title": "Macbook 清理硬盘",
+    "body": "Daisydisk\n\nNCDU",
+    "created_at": "2025-07-26T13:50:15Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/51",
+    "tags": []
+  },
+  {
     "title": "视频制作字幕",
     "body": "l\n方法1：Gemini\n流程：Gemini识别音频/视频，手动创建.srt文件，复制粘贴进去，然后导入剪映使用。\n使用我这个提示词，在AI Studio里选择Gemini Flash 2.5，效果好到不需要开Think模式就能准确出结果，速度快的很。\n\n提示词：\n识别我上传的音频/视频里的文字，并提供可快速复制的srt格式的字幕文本，每句字幕必须使用 hh:mm:ss,xxx --> hh:mm:ss,xxx 的时间标记，尤其是每句字幕的截止时间也务必遵循格式。中文必须使用简体中文，不能出现繁体字。\n以下是一段示例字幕，用作格式参考：\n1\n00:00:00,347 --> 00:00:07,037\n有一个问题其实就是，以后现在和过去哪个其实是最重要的，\n\n2\n00:00:07,037 --> 00:00:11,107\n那我觉得是过去创造了现在，现在来决定未来，\n\n3\n00:00:11,107 --> 00:00:17,217\n那我觉得说我们能够把握的其实只有现在。\n\n方法2：剪映老版本\nMac端的5.9.0的老版本剪映，还能免费用字幕识别功能，不知道还能用多久，随缘用吧。\n\nAI Studio地址：https://aistudio.google.com/app/prompts/new_chat\n\n剪映5.9.0 Mac版：\n夸克：pan.quark.cn/s/9aef9ab3c7f1\n百度：https://pan.baidu.com/s/1vTtK0Vbp6jjxxO_kG8sMpg?pwd=9svv\n谷歌：https://drive.google.com/drive/folders/15jg8J22YueF6K2FfLQ6wEoEl5J3qwL-D?usp=sharing",
     "created_at": "2025-07-21T12:36:57Z",
