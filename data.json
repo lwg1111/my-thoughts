@@ -1,5 +1,33 @@
 [
   {
+    "title": "一款统一布局检测和OCR的多语言文档解析模型",
+    "body": "https://github.com/rednote-hilab/dots.ocr",
+    "created_at": "2025-08-08T15:07:46Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/56",
+    "tags": []
+  },
+  {
+    "title": "Geimini CLI GUI - 将命令行体验转换为现代、高效的 AI 聊天界面。",
+    "body": "https://github.com/office-sec/AionUi",
+    "created_at": "2025-08-08T13:10:54Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/55",
+    "tags": []
+  },
+  {
+    "title": "脚本猫，一个可以执行用户脚本的浏览器扩展",
+    "body": "https://github.com/scriptscat/scriptcat",
+    "created_at": "2025-08-08T13:02:10Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/54",
+    "tags": []
+  },
+  {
+    "title": "NotebookLM alternative",
+    "body": "https://github.com/lfnovo/open-notebook",
+    "created_at": "2025-08-08T03:42:18Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/53",
+    "tags": []
+  },
+  {
     "title": "Aggregated HD Video Parser & Downloader",
     "body": "https://snapvee.com/",
     "created_at": "2025-08-07T23:51:30Z",
