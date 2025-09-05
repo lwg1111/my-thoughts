@@ -1,5 +1,12 @@
 [
   {
+    "title": "VPN",
+    "body": "如不想研究，小白最省事的搭梯方案：买台境外 VPS，然后直接 八合一 一键脚本 选 6、7、8 组合安装协议。根据个人长期使用经验，VLESS+Reality+Vision 的组合非常稳定，没有被封锁过。\n\nhttps://github.com/mack-a/v2ray-agent\n\n![image](https://github.com/user-attachments/assets/9c3bc9a4-8889-4a25-a471-291fce747989)",
+    "created_at": "2025-09-04T15:28:47Z",
+    "html_url": "https://github.com/lwg1111/my-thoughts/issues/61",
+    "tags": []
+  },
+  {
     "title": "《姚金刚提示词合集》",
     "body": "https://yaojingang.feishu.cn/docx/ER4rdSlvcofCtQxttSac2Xc4nGd",
     "created_at": "2025-08-23T18:52:51Z",
